@@ -3,9 +3,10 @@ package com.nexDew.Authentication.controller;
 import com.nexDew.Authentication.dto.RequestDto.LoginRequestDto;
 import com.nexDew.Authentication.dto.RequestDto.RefreshTokenRequest;
 import com.nexDew.Authentication.dto.RequestDto.SignupRequestDto;
-import com.nexDew.Authentication.dto.ResponseDto.LoginResponeDto;
+
+import com.nexDew.Authentication.dto.ResponseDto.LoginResponseDto;
 import com.nexDew.Authentication.dto.ResponseDto.SignupResponseDto;
-import com.nexDew.Authentication.entity.AuthEntity;
+import com.nexDew.Authentication.error.APIResponse;
 import com.nexDew.Authentication.repository.AuthRepository;
 import com.nexDew.Authentication.service.AuthService;
 import com.nexDew.Authentication.util.AuthUtil;
@@ -29,8 +30,15 @@ public class AuthController {
 
     @Operation(summary = "Login User")
     @PostMapping("/login")
-    public ResponseEntity<LoginResponeDto> login(@RequestBody LoginRequestDto loginRequestDto){
-        return ResponseEntity.ok(authService.login(loginRequestDto));
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto){
+        try{
+            LoginResponseDto login = authService.login(loginRequestDto);
+            return new ResponseEntity<>(APIResponse.success("Login successdully", login), HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(APIResponse.error("Invalid username or password"), HttpStatus.UNAUTHORIZED);
+        }
+
 
     }
 

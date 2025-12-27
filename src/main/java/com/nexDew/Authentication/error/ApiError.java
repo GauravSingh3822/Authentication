@@ -2,19 +2,22 @@ package com.nexDew.Authentication.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
+/**
+ * @param message   Human-readable message
+ * @param errorCode Stable error code for client mapping
+ * @param status    HTTP status
+ * @param path      Requested endpoint (for debugging)
+ * @param traceId   Mainly used for Zipkin and Eureka server
+ */
+
 @Builder
-public class ApiError {
-    private final String message;       // Human-readable message
-    private final String errorCode;     // Stable error code for client mapping
-    private final HttpStatus status;    // HTTP status
-    private final LocalDateTime timestamp;
-    private final String path;          // Requested endpoint (for debugging)
-    private final String traceId;       // Mainly used for Zipkin and Eureka server
+public record ApiError(String message, ErrorCode errorCode, HttpStatus status, LocalDateTime timestamp, String path,
+                       String traceId) {
 }
+
+
