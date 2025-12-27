@@ -1,0 +1,12 @@
+package com.nexDew.Authentication.error;
+
+public enum ErrorCode {
+    USER_ALREADY_EXISTS,
+    PASSWORD_ALREADY_EXISTS,
+    AUTH_INVALID_CREDENTIALS,
+    USER_NOT_FOUND,
+    INVALID_CREDENTIALS,
+    ACCESS_DENIED,
+    VALIDATION_FAILED,
+    INTERNAL_ERROR
+}
