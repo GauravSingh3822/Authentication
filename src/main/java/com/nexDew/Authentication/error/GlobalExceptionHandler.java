@@ -116,6 +116,29 @@ public class GlobalExceptionHandler {
                 request
         );
     }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<APIResponse<ApiError>> handleUserNotFound(
+            UserNotFoundException ex, HttpServletRequest request) {
+
+        return buildErrorResponse(ex.getMessage(), ErrorCode.USER_NOT_FOUND,
+                HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<APIResponse<ApiError>> handleDuplicate(
+            DuplicateResourceException ex, HttpServletRequest request) {
+
+        return buildErrorResponse(ex.getMessage(), ErrorCode.VALIDATION_FAILED,
+                HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(InvalidRoleException.class)
+    public ResponseEntity<APIResponse<ApiError>> handleInvalidRole(
+            InvalidRoleException ex, HttpServletRequest request) {
+
+        return buildErrorResponse(ex.getMessage(), ErrorCode.VALIDATION_FAILED,
+                HttpStatus.BAD_REQUEST, request);
+    }
 
     /* ================= COMMON BUILDER ================= */
 
@@ -137,12 +160,12 @@ public class GlobalExceptionHandler {
                 .build();
 
         log.error(
-                "TraceId={} | ErrorCode={} | Status={} | Path={}",
-                traceId, errorCode, status, request.getRequestURI()
+                "TraceId={} | ErrorCode={} | Status={} | Path={} | Message={}",
+                traceId, errorCode, status, request.getRequestURI(), message
         );
 
         return ResponseEntity
                 .status(status)
-                .body(APIResponse.error("Request failed"));
+                .body(APIResponse.error(apiError));
     }
 }

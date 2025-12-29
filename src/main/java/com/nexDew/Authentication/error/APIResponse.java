@@ -24,10 +24,11 @@ public class APIResponse<T> {
                 .build();
     }
 
-    public static <T> APIResponse<T> error(String message) {
+    public static <T> APIResponse<T> error(T data) {
         return APIResponse.<T>builder()
                 .success(false)
-                .message(message)
+                .message("Request failed")
+                .data(data)
                 .time(LocalDateTime.now())
                 .build();
     }

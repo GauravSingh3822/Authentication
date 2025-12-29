@@ -10,5 +10,4 @@ import java.util.Set;
 public interface RoleEntityRepository extends JpaRepository<RoleEntity, Long> {
     Optional<RoleEntity> findByName(String roleUser);
 
-    int FindAllById(Set<Long> roleIds);
 }
